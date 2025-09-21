@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/db/connectdb.ts","./src/models/threadschema.ts","./src/routes/chat.ts","./src/utils/generatedresponse.ts"],"version":"5.6.3"}
