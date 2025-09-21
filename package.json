@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx tsc -b && node dist/index.js",
-    "build" : "npx tsc -b"
+    "build" : "npm install typescript && npx tsc -b"
   },
   "keywords": [],
   "author": "",
