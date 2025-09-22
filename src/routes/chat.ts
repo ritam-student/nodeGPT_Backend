@@ -10,7 +10,7 @@ router.get("/thread", async(req, res) => {
     try {
         const threads = await Thread.find({}).sort({updatedAt: -1});
         //descending order of updatedAt...most recent data on top
-        res.json(threads);
+        res.status(200).json({"reply" :  threads});
     } catch(err) {
         console.log(err);
         res.status(500).json({error: "Failed to fetch threads"});
@@ -27,7 +27,7 @@ router.get("/thread/:threadId", async(req, res) => {
             res.status(404).json({error: "Thread not found"});
         }
 
-        res.json(thread?.messages);
+        res.status(200).json({"reply" : thread?.messages});
     } catch(err) {
         console.log(err);
         res.status(500).json({error: "Failed to fetch chat"});
@@ -44,7 +44,7 @@ router.delete("/thread/:threadId", async (req, res) => {
             res.status(404).json({error: "Thread not found"});
         }
 
-        res.status(200).json({success : "Thread deleted successfully"});
+        res.status(200).json({"reply" : "Thread deleted successfully"});
 
     } catch(err) {
         console.log(err);
@@ -79,7 +79,7 @@ router.post("/chat", async(req, res) => {
         thread.updatedAt = new Date();
 
         await thread.save();
-        res.json({reply: assistantReply});
+        res.status(200).json({"reply": assistantReply});
     } catch(err) {
         console.log(err);
         res.status(500).json({error: "something went wrong"});
@@ -87,6 +87,15 @@ router.post("/chat", async(req, res) => {
 });
 
 
+router.get("/freeChat/:query" , async (req , res) => {
+    try {
+        const {query} = req.params;
+        const response = await generateResponse(query);
 
+        res.status(200).json({ "reply" : response })
+    } catch (error) {
+        res.json({"error" : "Something went wrong..."})
+    }
+})
 
 export default router;
